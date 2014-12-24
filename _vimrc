@@ -110,6 +110,7 @@ imap <D-y> <C-y>,
 imap <D-p> <C-R>"
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+noremap <C-w> :tabclose<cr>
 "noremap <Space>t :CommandT<CR>
 " Add paste from buffer in inserrt mode
 " Adding dash as part of the word
