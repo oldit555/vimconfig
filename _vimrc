@@ -1,11 +1,46 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+behave mswin
+syntax enable
+set background=dark
+set guifont=Monaco:h15
 set nobackup
 set nowritebackup
 
+
+set diffexpr=MyDiff()
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+
+filetype off                  " required
+
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
+set rtp+=C:/Users/Olegdi/Programs/Vim/vimfiles/bundle/Vundle.vim/
+let path='C:/Users/Olegdi/Programs/Vim/vimfiles/bundle'
+call vundle#begin(path)
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
@@ -18,10 +53,8 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
-Plugin 'file:///home/gmarik/path/to/plugin'
+"Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 " Avoid a name conflict with L9
@@ -40,6 +73,7 @@ Plugin 'briancollins/vim-jst'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'Raimondi/delimitMate'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'kien/ctrlp.vim'
 Bundle 'kchmck/vim-coffee-script'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -61,7 +95,8 @@ set smartcase
 set nofoldenable
 " don't show intro
 set shortmess+=I
-let macvim_skip_colorscheme = 1
+let gvim_skip_colorscheme = 1
+let g:CommandTMatchWindowAtTop=1 " show window at top
 highlight DiffAdd term=reverse cterm=bold ctermbg=green ctermfg=white
 highlight DiffChange term=reverse cterm=bold ctermbg=cyan ctermfg=black
 highlight DiffText term=reverse cterm=bold ctermbg=gray ctermfg=black
@@ -73,6 +108,9 @@ nnoremap <C-j>  <c-w>W
 nnoremap <C-k> <c-w>w
 imap <D-y> <C-y>,
 imap <D-p> <C-R>"
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+"noremap <Space>t :CommandT<CR>
 " Add paste from buffer in inserrt mode
 " Adding dash as part of the word
 set isk+=-
@@ -119,3 +157,4 @@ cmap w!! %!sudo tee > /dev/null %
       let @/ = l:pattern
       let @" = l:saved_reg
  endfunction
+colorscheme solarized
