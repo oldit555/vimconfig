@@ -4,7 +4,7 @@ source $VIMRUNTIME/mswin.vim
 behave mswin
 syntax enable
 set background=dark
-set guifont=Monaco:h15
+set guifont=Inconsolata:h15
 set nobackup
 set nowritebackup
 
@@ -83,9 +83,10 @@ syntax enable
 set laststatus=2
 set number
 set autoindent
+set smartindent
 set expandtab
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set hlsearch
 set noswapfile
 set wildmenu
@@ -110,7 +111,7 @@ imap <D-y> <C-y>,
 imap <D-p> <C-R>"
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-noremap <C-w> :tabclose<cr>
+let g:nerdtree_tabs_open_on_gui_startup = 1
 "noremap <Space>t :CommandT<CR>
 " Add paste from buffer in inserrt mode
 " Adding dash as part of the word
